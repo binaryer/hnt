@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>汉诺塔演示</title>
+	<style type="text/css">
+		tr{
+			height: 8px;
+			border:0px;
+		}
+		td{
+			width:33%;
+			border:0px;
+		}
+		hr{
+			border:0px;
+			height: 7px;
+		}
+		hr.real{
+			color:#e67e22;
+			background-color:#e67e22;
+			position:relative;
+		}
+		html { overflow-x: hidden; overflow-y: auto; }
+
+	</style>
+</head>
+<body>
+	<div>
+		盘子数量: <input type="number" id="txtCount" required="required" value="6" min="1" max="64" />&nbsp;&nbsp;&nbsp;
+		移动间隔(毫秒): <input type="number" id="txtMs" required="required" value="150" min="1" max="10000" />&nbsp;&nbsp;&nbsp;
+		<button type="button" onClick="start();">开始</button>
+		<br /><br />
+	</div>
+
+	<table style="width:99%;" cellpadding="0" cellspacing="0" id="tbl1">
+			
+	</table>
+
+</body>
+
+<script src="jquery-3.5.1.min.js"></script>
+<script src="hnt.js"></script>
+<script>
+	
+	let lastW = -1;
+        function start(){
+		$("button").remove();
+		$("#tbl1").empty();
+		lastW = -1;
+
+		let count = parseInt($("#txtCount").val());
+		for(let i=0; i<count; i++){
+			let td1 = $("<td seq1 style='background-color:#34495e;'></td>");
+			let hr = $("<hr real class='real' />");
+			td1.append(hr);
+			let td2 = $("<td seq2 style='background-color:#bdc3c7;'> </td>");
+			let td3 = $("<td seq3 style='background-color:#16a085;'> </td>");
+			let tr = $("<tr></tr>");
+			tr.append(td1).append(td2).append(td3);
+			$("#tbl1").prepend(tr);
+			
+			if(lastW==-1){
+				let W = parseFloat(hr.css("width").replace("px",""));
+				lastW = W;
+			}else{
+				lastW=lastW*0.92;
+				hr.css("width", lastW+"px");
+			}
+		}
+
+		setTimeout(function(){
+			
+			move(1, 3, count, parseInt($("#txtMs").val()));
+		}, 2000);
+	}
+</script>
+</html>
